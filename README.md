@@ -1,5 +1,5 @@
 # FabricAutoScaling
-Auto-scale a Fabric Capacity on a time-based schedule by deploying an ARM template
+Auto-scale, pause or resume a Fabric Capacity on a time-based schedule by deploying an ARM template
 ### Prerequisites
 This assumes you already have a Fabric capacity deployed. To deploy the ARM template, install [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) if you haven't already. Afterwards, run `az login` to create a connection with Azure.
 ### Deploy the ARM template
@@ -83,3 +83,6 @@ Below are a few **examples** of how the placeholder `<schedule>` can be filled-i
 ```
 ### Outcome
 This ARM template will create an **automation account** in the resource group of the Fabric Capacity, that schedules a **runbook**. By default the deployed resources will be located in `uksouth`. you can change the region by adding `location='<region>'` to the `--parameters` in the Azure CLI command.
+
+<img width="1615" height="408" alt="image" src="https://github.com/user-attachments/assets/7998c7e9-418f-4fd4-9b6b-5fcb567b6e92" />
+
