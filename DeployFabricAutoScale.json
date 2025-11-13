@@ -51,7 +51,7 @@
                 "logVerbose": true,
                 "logProgress": true,
                 "publishContentLink": {
-                    "uri": "https://raw.githubusercontent.com/breght-van-baelen/FabricAutoScaling/main/ManageFabricCapacity.py",
+                    "uri": "https://raw.githubusercontent.com/breght-van-baelen/FabricAutoScaling/refs/heads/main/ManageFabricCapacity.py",
                     "contentVersion": "1.0.0.0"
                 }
             }
@@ -112,4 +112,5 @@
             }
         }
     ]
+
 }
