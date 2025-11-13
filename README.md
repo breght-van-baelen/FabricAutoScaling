@@ -6,7 +6,7 @@ This assumes you already have a Fabric capacity deployed. To deploy the ARM temp
 Deploy a time-based schedule with **one Azure CLI command**. There is no need to clone the repository!
 
 ```
-az deployment group create --resource-group <resource-group> --parameters capacityName='<capacity-name>' schedules='<schedule>' --name fabricautoscale --template-uri "https://raw.githubusercontent.com/breght-van-baelen/FabricAutoScaling/main/DeployFabricAutoscale.json" 
+az deployment group create --resource-group <resource-group> --parameters capacityName='<capacity-name>' schedules='<schedule>' --name fabricautoscale --template-uri "https://raw.githubusercontent.com/breght-van-baelen/FabricAutoScaling/refs/heads/main/DeployFabricAutoScale.json" 
 ```
 
 You only have to fill-in 3 placeholders in this command, namely `<resource-group>`, `<capacity-name>` and `<schedule>`.
