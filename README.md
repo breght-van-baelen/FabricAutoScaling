@@ -1,2 +1,85 @@
 # FabricAutoScaling
 Auto-scale a Fabric Capacity on a time-based schedule by deploying an ARM template
+### Prerequisites
+This assumes you already have a Fabric capacity deployed. To deploy the ARM template, install [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) if you haven't already. Afterwards, run `az login` to create a connection with Azure.
+### Deploy the ARM template
+Deploy a time-based schedule to autoscale the Fabric capacity with **one Azure CLI command**. There is no need to clone the repository!
+
+```
+az deployment group create --resource-group <resource-group> --parameters capacityName='<capacity-name>' schedules='<schedule>' --name fabricautoscale --template-uri "https://raw.githubusercontent.com/breght-van-baelen/FabricAutoScaling/main/DeployFabricAutoscale.json" 
+```
+
+You only have to fill-in 3 placeholders in this command, namely `<resource-group>`, `<capacity-name>` and `<schedule>`.
+The placeholder `<schedule>` can be filled-in as an array of scheduling actions in the following **structure**.
+
+```
+[
+  {
+      "name": "<name>", //name of the schedule action
+      "operation": "<operation>", //scale, suspend or resume
+      "sku": "<sku>", //F2 - F2048, only required for the scale operation
+      "interval": <interval>, // a number that schedules it every x Days, Weeks or Months
+      "frequency": "<frequency>", //Day, Week or Month
+      "advancedSchedule": {}, //optional
+      "startTime": "yyyy-MM-ddTHH:mm:ss+00:00",
+      "timeZone": "Continent/City"
+  },
+  ...
+]
+```
+
+Below are a few **examples** of how the placeholder `<schedule>` can be filled-in. 
+
+*Upscale the capacity from F64 to F128 every workday between 9am and 5pm:*
+```
+[
+  {
+      "name": "Daily9amSchedule",
+      "operation": "scale",
+      "sku": "F64",
+      "interval": 1,
+      "frequency": "Week",
+      "advancedSchedule": {
+          "weekDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      },
+      "startTime": "2025-11-10T09:00:00+00:00",
+      "timeZone": "Europe/Dublin"
+  },
+  {
+      "name": "Daily5pmSchedule",
+      "operation": "scale",
+      "sku": "F128",
+      "interval": 1,
+      "frequency": "Week",
+      "advancedSchedule": {
+          "weekDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      },
+      "startTime": "2025-11-10T17:00:00+00:00",
+      "timeZone": "Europe/Dublin"
+  }
+]
+```
+
+*Pause the capacity every day at 5pm and resume it at 9am the following day:*
+```
+[
+  {
+      "name": "Daily5pmSuspendSchedule",
+      "operation": "suspend",
+      "interval": 1,
+      "frequency": "Day",
+      "startTime": "2025-11-10T17:00:00+00:00",
+      "timeZone": "Europe/Dublin"
+  }
+  {
+      "name": "Daily9amResumeSchedule",
+      "operation": "resume",
+      "interval": 1,
+      "frequency": "Day",
+      "startTime": "2025-11-11T09:00:00+00:00",
+      "timeZone": "Europe/Dublin"
+  },
+]
+```
+### Outcome
+This ARM template will create an **automation account** in the resource group of the Fabric Capacity, that schedules a **runbook**. By default the deployed resources will be located in `uksouth`. you can change the region by adding `location='<region>'` to the `--parameters` in the Azure CLI command.
