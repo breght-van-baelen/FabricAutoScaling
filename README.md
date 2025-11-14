@@ -1,5 +1,5 @@
 # FabricAutoScaling
-Auto-scale, pause or resume a Fabric Capacity on a time-based schedule by deploying an ARM template
+Auto-scale, pause, or resume a Fabric Capacity on a time-based schedule. This ARM template lets you run a capacity when you need it, and fall back to a lower tier or pause the capacity outside peak hours. This way, you can trial higher performance on a pay-as-you-go basis instead of immediately committing to a more expensive, always-on tier.
 ### Prerequisites
 This assumes you already have a Fabric capacity deployed. To deploy the ARM template, install [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) if you haven't already. Afterwards, run `az login` to create a connection with Azure.
 ### Deploy the ARM template
